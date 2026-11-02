@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ventas SaaS Bolivia - UMSA Grupo 2</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Google Font Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emprende: {
+                            purple: '#2D1458',
+                            purpleLight: '#4C1D95',
+                            orange: '#FF6B00',
+                            orangeDark: '#E05600',
+                            accent: '#7C3AED'
+                        },
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#7c3aed',
+                            600: '#6d28d9',
+                            700: '#5b21b6',
+                            900: '#2d1458',
+                        },
+                        bolivia: {
+                            red: '#D52B1E',
+                            yellow: '#F9E300',
+                            green: '#007A33'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        brand: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .modal-blur { backdrop-filter: blur(5px); }
+        .logo-gradient { background: linear-gradient(135deg, #2D1458 0%, #4C1D95 50%, #FF6B00 100%); }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- BARRA ACADÉMICA / PROYECTO UMSA -->
+    <header class="bg-emprende-purple text-slate-300 text-xs px-4 py-2 flex flex-col sm:flex-row justify-between items-center gap-2 border-b border-purple-900">
+        <div class="flex items-center space-x-2">
+            <span class="bg-emprende-orange text-white font-black px-2 py-0.5 rounded text-[10px] tracking-wider uppercase">GRUPO 2</span>
+            <span class="font-semibold text-white">UMSA - Facultad de Ciencias Puras y Naturales</span>
+            <span class="hidden md:inline">• Carrera de Informática (SIS-253)</span>
+        </div>
+        <div class="flex items-center space-x-4 text-[11px]">
+            <span><strong>Docente:</strong> Lic. Vivian Rocio Sanchez Rodriguez</span>
+            <span class="hidden sm:inline">•</span>
+            <span><strong>Integrantes:</strong> Chambi Brian & Vera Marco & Callisaya Diana & BORRAS  RODRIGO </span>
+        </div>
+    </header>
+
+    <!-- BANNER CONTEXTO DE MERCADO BOLIVIA (2025-2026) -->
+    <div class="bg-gradient-to-r from-emprende-purple via-slate-900 to-emprende-purple text-white px-4 py-2.5 border-b border-emprende-orange/30 shadow-inner">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs gap-3">
+            <div class="flex items-center space-x-2">
+                <span class="flex h-2 w-2 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emprende-orange opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emprende-orange"></span>
+                </span>
+                <span class="font-bold text-emprende-orange uppercase tracking-wider">Estudio de Mercado Bolivia 2026:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4 text-slate-300 font-medium">
+                <span><i class="fas fa-qrcode text-emprende-orange mr-1"></i> 892M Pagos QR (86% TRX)</span>
+                <span><i class="fas fa-wifi text-purple-400 mr-1"></i> 71.3% Penetración Internet</span>
+                <span><i class="fas fa-store-slash text-amber-400 mr-1"></i> Solo 8% vende online activo</span>
+                <span class="bg-emprende-orange/20 text-orange-200 px-2.5 py-0.5 rounded-full border border-emprende-orange/40 font-semibold">
+                    Inversión Inicial: 51,800 BS ($7,443 USD)
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL SaaS -->
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+        
+        <!-- SIDEBAR DE NAVEGACIÓN SaaS -->
+        <aside class="w-full md:w-64 bg-emprende-purple text-white flex-shrink-0 flex flex-col justify-between border-r border-purple-950">
+            <div>
+                <!-- Brand Header con Logo Oficial de EmprendeYa -->
+                <div class="p-4 border-b border-purple-900/80 bg-slate-950/40">
+                    <div class="flex items-center space-x-3">
+                        <!-- SVG de Logo Oficial EmprendeYa (Bolsa + Cohete + Eslogan) -->
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emprende-purpleLight via-purple-900 to-emprende-orange p-1.5 flex items-center justify-center shadow-lg shadow-orange-500/20 border border-orange-500/30 flex-shrink-0">
+                            <svg viewBox="0 0 120 120" class="w-full h-full text-white">
+                                <defs>
+                                    <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#4C1D95"/>
+                                        <stop offset="100%" stop-color="#2D1458"/>
+                                    </linearGradient>
+                                    <linearGradient id="rocketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#FF6B00"/>
+                                        <stop offset="100%" stop-color="#FF9E00"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Bolsa de Compras con borde naranja -->
+                                <path d="M 30,42 L 90,42 L 100,105 C 100,110 95,112 90,112 L 30,112 C 25,112 20,110 20,105 Z" fill="url(#bagGrad)" stroke="#FF6B00" stroke-width="4" stroke-linejoin="round"/>
+                                <!-- Asa de la Bolsa -->
+                                <path d="M 45,42 C 45,22 75,22 75,42" fill="none" stroke="#FF6B00" stroke-width="6" stroke-linecap="round"/>
+                                <!-- Cohete Blanco -->
+                                <path d="M 60,48 C 72,55 78,75 75,92 L 60,84 L 45,92 C 42,75 48,55 60,48 Z" fill="#FFFFFF"/>
+                                <circle cx="60" cy="65" r="4.5" fill="#2D1458"/>
+                                <!-- Estela de Fuego / Velocidad -->
+                                <path d="M 60,84 L 60,102 C 60,102 54,98 50,104 C 58,110 62,110 70,104 C 66,98 60,102 60,102 Z" fill="url(#rocketGrad)"/>
+                                <path d="M 12,50 L 32,50 M 8,62 L 25,62 M 15,74 L 28,74" stroke="#FF6B00" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex items-center space-x-1">
+                                <h1 class="font-brand font-black text-xl text-white tracking-tight leading-none">Emprende<span class="text-emprende-orange">Ya</span></h1>
+                            </div>
+                            <p class="text-[10px] text-orange-300 font-semibold italic mt-0.5 truncate">Descubre, compra y crece</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil Negocio -->
+                <div class="p-3 mx-2 my-3 bg-purple-950/60 rounded-xl border border-purple-800/50 flex items-center space-x-3">
+                    <div id="sidebar-shop-avatar" class="w-9 h-9 rounded-lg bg-emprende-orange text-white flex items-center justify-center font-black text-sm shadow">
+                        AP
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p id="sidebar-shop-name" class="text-xs font-bold text-white truncate">Artesanías La Paz</p>
+                        <p id="sidebar-shop-subdomain" class="text-[10px] text-purple-300 truncate">artesanias-lp.emprendeya.bo</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Items -->
+                <nav class="px-2 space-y-1 text-xs font-medium">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-white bg-emprende-orange font-bold shadow-md shadow-orange-600/30">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-chart-line w-4 text-center"></i>
+                            <span>Dashboard / Analytics</span>
+                        </div>
+                    </button>
+
+                    <button onclick="switchTab('config-tienda')" id="nav-config-tienda" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-store w-4 text-center text-orange-400"></i>
+                            <span>Configurar Mi Tienda & Banco</span>
+                        </div>
+                        <span class="bg-orange-500/20 text-orange-300 text-[10px] px-2 py-0.5 rounded-full font-bold">OP-01</span>
+                    </button>
+
+                    <button onclick="switchTab('catalogo')" id="nav-catalogo" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-boxes-packing w-4 text-center"></i>
+                            <span>Catálogo y Productos</span>
+                        </div>
+                        <span id="badge-products-count" class="bg-purple-900 text-purple-200 text-[10px] px-2 py-0.5 rounded-full">4</span>
+                    </button>
+
+                    <button onclick="switchTab('inventario')" id="nav-inventario" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-cubes w-4 text-center"></i>
+                            <span>Control Inventario (Tiempo Real)</span>
+                        </div>
+                        <span id="badge-alert-stock" class="bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/30">2 Alertas</span>
+                    </button>
+
+                    <button onclick="switchTab('pedidos')" id="nav-pedidos" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fab fa-whatsapp w-4 text-center text-emerald-400"></i>
+                            <span>Pedidos por WhatsApp</span>
+                        </div>
+                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/30">3 Activos</span>
+                    </button>
+
+                    <button onclick="switchTab('qr-pagos')" id="nav-qr-pagos" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-qrcode w-4 text-center"></i>
+                            <span>Cobros QR Simple Bolivia</span>
+                        </div>
+                        <span class="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-0.5 rounded-full">QR</span>
+                    </button>
+
+                    <div class="pt-3 mt-3 border-t border-purple-900 text-[10px] font-bold text-purple-400 uppercase tracking-wider px-3">
+                        Público & Experiencia Comprador
+                    </div>
+
+                    <button onclick="switchTab('inicio-landing')" id="nav-inicio-landing" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-house w-4 text-center text-amber-400"></i>
+                            <span>Inicio / Presentación SaaS</span>
+                        </div>
+                        <span class="text-[10px] bg-emprende-orange text-white px-1.5 py-0.5 rounded font-bold">Landing</span>
+                    </button>
+
+                    <button onclick="switchTab('cliente-view')" id="nav-cliente-view" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition text-slate-300 hover:bg-purple-900/50 hover:text-white border border-orange-500/30 bg-orange-950/20">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-mobile-screen-button w-4 text-center text-emprende-orange"></i>
+                            <span>Ver Tienda Pública Móvil</span>
+                        </div>
+                        <span class="text-[10px] bg-emprende-orange text-white px-1.5 py-0.5 rounded font-bold">PWA</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Footer Presupuesto Operativo -->
+            <div class="p-3 border-t border-purple-950 bg-slate-950/80">
+                <div class="text-[11px] space-y-1">
+                    <div class="flex justify-between text-purple-300">
+                        <span>Costo Op. Mensual:</span>
+                        <span class="font-bold text-white">8,550 BS</span>
+                    </div>
+                    <div class="w-full bg-purple-950 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emprende-orange h-full w-2/3"></div>
+                    </div>
+                    <p class="text-[9px] text-purple-400 text-center pt-1">Plataforma SaaS • Nube 24/7 Bolivia</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- AREA DE CONTENIDO DINÁMICO -->
+        <main class="flex-1 flex flex-col min-w-0 bg-slate-50 overflow-y-auto">
+            
+            <!-- HEADER DE SECCIÓN -->
+            <header class="bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sticky top-0 z-10 shadow-sm">
+                <div>
+                    <h2 id="section-title" class="text-xl font-black text-slate-900 tracking-tight">Dashboard de Ventas & Operaciones</h2>
+                    <p id="section-desc" class="text-xs text-slate-500">Métricas clave en tiempo real adaptadas al comercio en Bolivia.</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <!-- Selector de Tiendas Registradas -->
+                    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl px-2 py-1 text-xs">
+                        <span class="text-slate-500 font-bold mr-1.5 hidden sm:inline"><i class="fas fa-store text-emprende-orange"></i> Tienda:</span>
+                        <select id="active-store-selector" onchange="switchActiveStore(this.value)" class="bg-transparent font-bold text-slate-800 focus:outline-none cursor-pointer">
+                            <!-- Se puebla dinámicamente -->
+                        </select>
+                    </div>
+                    <button onclick="openCreateStoreModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                        <i class="fas fa-plus-circle"></i>
+                        <span class="hidden sm:inline">Crear Otra Tienda</span>
+                    </button>
+                    <button onclick="openProductModal()" class="bg-emprende-purple hover:bg-purple-900 text-white font-bold px-3 py-2 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                        <i class="fas fa-plus text-emprende-orange"></i>
+                        <span class="hidden sm:inline">Nuevo Producto</span>
+                    </button>
+                    <button onclick="switchTab('cliente-view')" class="bg-emprende-orange hover:bg-orange-600 text-white font-bold px-3 py-2 rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span class="hidden sm:inline">Ver Tienda</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="p-6 space-y-6">
+
+                <!-- NUEVA SECCIÓN TAB: INICIO LANDING & EXPLICACIÓN DE SISTEMA -->
+                <section id="tab-inicio-landing" class="tab-content hidden space-y-8">
+                    <!-- Hero Banner con Logo Oficial e Identidad -->
+                    <div class="bg-gradient-to-r from-emprende-purple via-purple-900 to-emprende-orange rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                            <div class="max-w-2xl space-y-4">
+                                <span class="bg-white/20 text-orange-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm border border-white/10 inline-block">
+                                    Plataforma SaaS Multirrubro Bolivia 2026
+                                </span>
+                                <h2 class="text-3xl sm:text-4xl font-brand font-black tracking-tight leading-tight">
+                                    Digitaliza las ventas de cualquier negocio: Tienda online, Inventarios y QR
+                                </h2>
+                                <p class="text-xs sm:text-sm text-purple-100 leading-relaxed">
+                                    Pensado para comercios de todo tipo en Bolivia: ropa, calzados, gastronomía, ferreterías, tecnología, artesanías, belleza y más. Crea tu vitrina digital en minutos sin pagar comisiones por venta.
+                                </p>
+                                <div class="flex flex-wrap gap-3 pt-2">
+                                    <button onclick="openCreateStoreModal()" class="bg-emprende-orange hover:bg-orange-600 text-white font-black px-6 py-3 rounded-2xl text-xs transition shadow-lg flex items-center gap-2">
+                                        <i class="fas fa-rocket font-black"></i>
+                                        <span>Crear Tienda para Mi Negocio</span>
+                                    </button>
+                                    <button onclick="switchTab('dashboard')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-5 py-3 rounded-2xl text-xs transition border border-white/20">
+                                        <span>Ir al Panel de Administración</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Tarjeta Ilustrativa del Logo EmprendeYa -->
+                            <div class="bg-slate-950/50 p-6 rounded-3xl border border-white/10 text-center space-y-3 flex-shrink-0 w-64 shadow-2xl">
+                                <div class="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-br from-emprende-purpleLight to-emprende-orange p-3 flex items-center justify-center shadow-inner">
+                                    <svg viewBox="0 0 120 120" class="w-full h-full text-white">
+                                        <path d="M 30,42 L 90,42 L 100,105 C 100,110 95,112 90,112 L 30,112 C 25,112 20,110 20,105 Z" fill="#2D1458" stroke="#FF6B00" stroke-width="4"/>
+                                        <path d="M 45,42 C 45,22 75,22 75,42" fill="none" stroke="#FF6B00" stroke-width="6" stroke-linecap="round"/>
+                                        <path d="M 60,48 C 72,55 78,75 75,92 L 60,84 L 45,92 C 42,75 48,55 60,48 Z" fill="#FFFFFF"/>
+                                        <circle cx="60" cy="65" r="4.5" fill="#2D1458"/>
+                                        <path d="M 60,84 L 60,102 C 60,102 54,98 50,104 C 58,110 62,110 70,104 C 66,98 60,102 60,102 Z" fill="#FF6B00"/>
+                                        <path d="M 12,50 L 32,50 M 8,62 L 25,62 M 15,74 L 28,74" stroke="#FF6B00" stroke-width="4" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <h4 class="font-brand font-black text-xl text-white">Emprende<span class="text-emprende-orange">Ya</span></h4>
+                                <p class="text-[11px] text-orange-300 font-semibold italic">Descubre, compra y crece</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ¿De qué se trata el Sistema? (Perfil de Proyecto) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-100 text-emprende-orange flex items-center justify-center font-black text-lg">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-sm">1. Tienda Online & Catálogo Digital</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Publica tus productos con foto, descripción y precio. Cada negocio obtiene un subdominio propio (`mitienda.emprendeya.bo`) y enlaces directos para compartir.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 text-emprende-purple flex items-center justify-center font-black text-lg">
+                                <i class="fas fa-boxes-packing"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-sm">2. Control de Inventario en Tiempo Real</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Evita vender productos agotados. El stock se descuenta automáticamente con cada pedido recibido por WhatsApp o verificado por pago QR Simple.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-lg">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-sm">3. Pedidos por WhatsApp & QR Simple</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Transforma los carritos de compra en mensajes formateados para WhatsApp e integra cobros rápidos por QR de cualquier banco en Bolivia.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Directorio de Tiendas Creadas -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-base">Tiendas Creadas en la Plataforma</h3>
+                                <p class="text-xs text-slate-500">Selecciona o administra cualquiera de los negocios registrados.</p>
+                            </div>
+                            <button onclick="openCreateStoreModal()" class="bg-emprende-purple hover:bg-purple-900 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2">
+                                <i class="fas fa-plus text-emprende-orange"></i> Crear Otra Tienda
+                            </button>
+                        </div>
+
+                        <div id="stores-directory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Se puebla dinámicamente -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 1: DASHBOARD DE ANALÍTICA -->
+                <section id="tab-dashboard" class="tab-content space-y-6">
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ventas del Mes</p>
+                                <h3 class="text-2xl font-black text-slate-900 mt-1" id="dash-total-sales">Bs. 4,850</h3>
+                                <span class="text-xs font-semibold text-emerald-600 flex items-center gap-1 mt-1">
+                                    <i class="fas fa-arrow-up"></i> +24% este mes
+                                </span>
+                            </div>
+                            <div class="w-12 h-12 rounded-2xl bg-purple-50 text-emprende-purple flex items-center justify-center text-xl font-bold">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pedidos WhatsApp</p>
+                                <h3 class="text-2xl font-black text-slate-900 mt-1">64 Pedidos</h3>
+                                <span class="text-xs font-semibold text-emerald-600 flex items-center gap-1 mt-1">
+                                    <i class="fab fa-whatsapp"></i> 89% Conversión
+                                </span>
+                            </div>
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Valor de Inventario</p>
+                                <h3 class="text-2xl font-black text-slate-900 mt-1" id="dash-inventory-val">Bs. 8,190</h3>
+                                <span class="text-xs font-semibold text-slate-500 mt-1 inline-block" id="dash-total-units">142 Unidades</span>
+                            </div>
+                            <div class="w-12 h-12 rounded-2xl bg-orange-50 text-emprende-orange flex items-center justify-center text-xl">
+                                <i class="fas fa-boxes-stacked"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cobros QR Simple</p>
+                                <h3 class="text-2xl font-black text-slate-900 mt-1">Bs. 3,950</h3>
+                                <span class="text-xs font-semibold text-emprende-orange flex items-center gap-1 mt-1">
+                                    <i class="fas fa-qrcode"></i> 81% de Cobros
+                                </span>
+                            </div>
+                            <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts & Recent Activity -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Chart Sales -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-base">Ventas Semanales y Canales de Cobro</h3>
+                                    <p class="text-xs text-slate-500">Comparativa entre QR Simple e Integración WhatsApp</p>
+                                </div>
+                                <span class="text-xs bg-purple-50 text-purple-900 font-bold px-3 py-1 rounded-lg">Nov 2026</span>
+                            </div>
+                            <div class="h-64">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Panel de Ventajas del Modelo SaaS -->
+                        <div class="bg-emprende-purple text-white p-6 rounded-2xl shadow-xl flex flex-col justify-between space-y-4 relative overflow-hidden">
+                            <div class="absolute -right-10 -bottom-10 opacity-10 text-white text-9xl pointer-events-none">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2 text-emprende-orange text-xs font-bold uppercase tracking-wider">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>EmprendeYa SaaS Bolivia</span>
+                                </div>
+                                <h3 class="text-xl font-brand font-black mt-2">Descubre, compra y crece</h3>
+                                <ul class="text-xs text-purple-200 space-y-2.5 mt-4">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-check-circle text-emprende-orange mt-0.5"></i>
+                                        <span><strong>Tienda en Minutos:</strong> Subdominio propio y catálogo con fotos.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-check-circle text-emprende-orange mt-0.5"></i>
+                                        <span><strong>QR por Producto:</strong> Códigos imprimibles para productos individuales.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-check-circle text-emprende-orange mt-0.5"></i>
+                                        <span><strong>Inventario Automático:</strong> Descuento en tiempo real al confirmar la venta.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="bg-purple-950/80 p-3 rounded-xl border border-purple-800 text-center">
+                                <p class="text-xs text-purple-300">Presupuesto Inicial Proyecto</p>
+                                <p class="text-base font-extrabold text-emprende-orange">51,800 BS (7,443 USD)</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NUEVA SECCIÓN: CONFIGURACIÓN DE TIENDA ONLINE (OP-01 & OP-02) -->
+                <section id="tab-config-tienda" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 max-w-4xl">
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                                    <i class="fas fa-sliders text-emprende-orange"></i>
+                                    <span>Configuración de Tu Tienda, WhatsApp & Datos Bancarios</span>
+                                </h3>
+                                <p class="text-xs text-slate-500">Crea tu vitrina virtual, vincula tu número de WhatsApp para recibir ventas y configura tu cuenta de banco para cobrar por QR.</p>
+                            </div>
+                            <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">Autoservicio Digital</span>
+                        </div>
+
+                        <form onsubmit="saveShopSettings(event)" class="space-y-4 text-xs">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Nombre Comercial de Tu Negocio</label>
+                                    <input type="text" id="cfg-shop-name" value="Artesanías & Moda La Paz" required class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Subdominio Web Asignado</label>
+                                    <div class="flex items-center">
+                                        <input type="text" id="cfg-shop-subdomain" value="artesanias-lp" required class="w-full p-2.5 border border-r-0 border-slate-200 rounded-l-xl focus:ring-2 focus:ring-emprende-orange text-slate-900 font-bold">
+                                        <span class="bg-slate-100 border border-slate-200 p-2.5 rounded-r-xl text-slate-500 font-semibold">.emprendeya.bo</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Número de WhatsApp (Con Código Bolivia +591)</label>
+                                    <input type="text" id="cfg-shop-phone" value="59176543210" required placeholder="591XXXXXXXX" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange font-mono">
+                                    <p class="text-[10px] text-slate-400 mt-1">Ingresa tu número completo con 591 adelante sin el signo +</p>
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Color Principal de la Vitrina</label>
+                                    <div class="flex items-center gap-3">
+                                        <input type="color" id="cfg-shop-color" value="#FF6B00" class="w-10 h-10 rounded-xl border border-slate-200 cursor-pointer">
+                                        <span class="text-slate-600 font-bold">Tema Comercial Naranja / Púrpura</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DATOS BANCARIOS BOLIVIA (NUEVO) -->
+                            <div class="p-4 bg-purple-50 rounded-2xl border border-purple-200 space-y-3">
+                                <h4 class="font-bold text-emprende-purple text-xs flex items-center gap-1.5">
+                                    <i class="fas fa-university text-emprende-orange"></i>
+                                    <span>Datos Bancarios para Recibir Transferencias QR Simple</span>
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="block font-bold text-slate-700 mb-1">Banco Emisor</label>
+                                        <select id="cfg-shop-bank" class="w-full p-2 border border-slate-200 rounded-xl bg-white font-semibold">
+                                            <option value="Banco Unión S.A.">Banco Unión S.A.</option>
+                                            <option value="Banco Nacional de Bolivia (BNB)">BNB (Banco Nacional)</option>
+                                            <option value="Banco Mercantil Santa Cruz">Mercantil Santa Cruz</option>
+                                            <option value="Banco BISA">Banco BISA</option>
+                                            <option value="Banco Sol">Banco Sol</option>
+                                            <option value="Banco Fassil">Banco Fie</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-slate-700 mb-1">Número de Cuenta Bancaria</label>
+                                        <input type="text" id="cfg-shop-account" value="1000004589231" placeholder="Ej. 100000345..." class="w-full p-2 border border-slate-200 rounded-xl bg-white font-mono">
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-slate-700 mb-1">Nombre Titular de Cuenta</label>
+                                        <input type="text" id="cfg-shop-holder" value="Brian Chambi Cahuana" placeholder="Nombre completo" class="w-full p-2 border border-slate-200 rounded-xl bg-white">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Mensaje de Bienvenida en Tienda Móvil</label>
+                                <textarea id="cfg-shop-welcome" rows="2" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">¡Bienvenido a nuestro catálogo digital! Realiza tu pedido y te atenderemos de inmediato por WhatsApp.</textarea>
+                            </div>
+
+                            <div class="pt-2 flex justify-end">
+                                <button type="submit" class="bg-emprende-orange hover:bg-orange-600 text-white font-black px-6 py-2.5 rounded-xl text-xs transition shadow-md flex items-center gap-2">
+                                    <i class="fas fa-save"></i>
+                                    <span>Guardar WhatsApp & Banco</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- TAB 2: CATÁLOGO Y GESTOR DE PRODUCTOS -->
+                <section id="tab-catalogo" class="tab-content hidden space-y-6">
+                    <!-- Filtros y Búsqueda -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between gap-4 items-center">
+                        <div class="relative w-full sm:w-80">
+                            <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            <input type="text" id="catalog-search" oninput="renderProducts()" placeholder="Buscar producto por nombre..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emprende-orange focus:outline-none">
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <select id="catalog-category" onchange="renderProducts()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700">
+                                <option value="todos">Todas las Categorías</option>
+                                <option value="Ropa">Textiles & Ropa</option>
+                                <option value="Alimentos">Alimentos & Bebidas</option>
+                                <option value="Artesania">Artesanías</option>
+                            </select>
+                            <button onclick="openProductModal()" class="bg-emprende-purple hover:bg-purple-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-2 whitespace-nowrap">
+                                <i class="fas fa-plus text-emprende-orange"></i> Nuevo Producto
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grida de Productos -->
+                    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Carga dinámica -->
+                    </div>
+                </section>
+
+                <!-- TAB 3: CONTROL DE INVENTARIO EN TIEMPO REAL -->
+                <section id="tab-inventario" class="tab-content hidden space-y-6">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-4 border-b border-slate-100">
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-base">Control de Existencias & Movimientos (OP-05 y OP-09)</h3>
+                                <p class="text-xs text-slate-500">Actualiza stock con actualización automática e historial de cambios.</p>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl text-amber-800 text-xs font-semibold flex items-center gap-2">
+                                <i class="fas fa-triangle-exclamation text-amber-600"></i>
+                                <span>Alerta activada para existencias &lt; 5 unidades</span>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de Inventario -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="uppercase text-slate-400 font-bold bg-slate-50 border-y border-slate-200">
+                                        <th class="py-3 px-4">Producto</th>
+                                        <th class="py-3 px-4">Categoría</th>
+                                        <th class="py-3 px-4">Precio (BS)</th>
+                                        <th class="py-3 px-4">Stock Actual</th>
+                                        <th class="py-3 px-4">Estado</th>
+                                        <th class="py-3 px-4 text-center">Ajuste Manual</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventory-table-body" class="divide-y divide-slate-100">
+                                    <!-- Carga dinámica -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Historial de Movimientos -->
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-3">
+                        <h4 class="font-bold text-slate-900 text-sm">Registro de Movimientos Recientes</h4>
+                        <div id="inventory-log" class="space-y-2 text-xs text-slate-600 max-h-48 overflow-y-auto">
+                            <div class="p-2 bg-slate-50 rounded-lg flex justify-between">
+                                <span><strong class="text-slate-800">Sistema:</strong> Stock inicial cargado en la plataforma SaaS.</span>
+                                <span class="text-slate-400">Hoy</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: PEDIDOS & WHATSAPP AUTOMATION -->
+                <section id="tab-pedidos" class="tab-content hidden space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Lista de Pedidos en Sistema -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-bold text-slate-900 text-base">Bandeja de Pedidos Recibidos (OP-08)</h3>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full">3 Nuevos</span>
+                            </div>
+
+                            <div class="space-y-3" id="orders-list">
+                                <!-- Pedido 1 -->
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs font-bold text-emprende-orange">#PED-8942</span>
+                                            <h4 class="font-bold text-slate-900 text-sm">Elena Gutierrez (La Paz)</h4>
+                                            <p class="text-xs text-slate-500">Teléfono: +591 71524310</p>
+                                        </div>
+                                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-lg font-bold">Por Confirmar</span>
+                                    </div>
+                                    <div class="text-xs text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200">
+                                        • 1x Chompa Alpaca Fina (Bs. 180)<br>
+                                        • 1x Café Caranavi Grano 250g (Bs. 35)
+                                    </div>
+                                    <div class="flex justify-between items-center pt-2">
+                                        <span class="text-sm font-black text-slate-900">Total: Bs. 215</span>
+                                        <button onclick="generateWhatsAppMessage('Elena Gutierrez', '8942', 'Chompa Alpaca Fina (1), Café Caranavi (1)', 215)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-2">
+                                            <i class="fab fa-whatsapp"></i> Generar Respuesta WhatsApp
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Pedido 2 -->
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs font-bold text-emprende-orange">#PED-8941</span>
+                                            <h4 class="font-bold text-slate-900 text-sm">Carlos Mamani (El Alto)</h4>
+                                            <p class="text-xs text-slate-500">Teléfono: +591 76239011</p>
+                                        </div>
+                                        <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-lg font-bold">Pago QR Verificado</span>
+                                    </div>
+                                    <div class="text-xs text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200">
+                                        • 2x Miel Orgánica 500g (Bs. 90)
+                                    </div>
+                                    <div class="flex justify-between items-center pt-2">
+                                        <span class="text-sm font-black text-slate-900">Total: Bs. 90</span>
+                                        <button onclick="generateWhatsAppMessage('Carlos Mamani', '8941', '2x Miel Orgánica 500g', 90)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-2">
+                                            <i class="fab fa-whatsapp"></i> Generar Respuesta WhatsApp
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Generador de Mensaje Formateado API WhatsApp -->
+                        <div class="bg-emprende-purple text-white p-6 rounded-2xl shadow-xl flex flex-col justify-between space-y-4">
+                            <div>
+                                <h3 class="font-bold text-base flex items-center gap-2">
+                                    <i class="fab fa-whatsapp text-emerald-400"></i>
+                                    <span>Formateador de Mensajes WhatsApp</span>
+                                </h3>
+                                <p class="text-xs text-purple-200 mt-1">Genera el texto listo para redirigir directamente al cliente con los detalles de compra y el enlace de pago por QR.</p>
+
+                                <div class="mt-4 space-y-3">
+                                    <textarea id="wa-preview-text" rows="8" class="w-full p-3 bg-purple-950 border border-purple-800 rounded-xl text-xs text-emerald-300 font-mono focus:outline-none" readonly>Haz clic en "Generar Respuesta WhatsApp" en un pedido para ver el mensaje formateado aquí...</textarea>
+                                </div>
+                            </div>
+
+                            <button onclick="openWhatsAppSimulatedLink()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>Abrir Chat de WhatsApp (Simulado)</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: COBROS POR QR SIMPLE (BOLIVIA) -->
+                <section id="tab-qr-pagos" class="tab-content hidden space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Generador de QR Interbancario -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                                <i class="fas fa-qrcode text-emprende-orange"></i>
+                                <span>Pasarela de Pago QR Simple Bolivia</span>
+                            </h3>
+                            <p class="text-xs text-slate-500">Genera códigos QR dinámicos compatibles con Banco Unión, BNB, Mercantil Santa Cruz, Banco Sol y BISA.</p>
+
+                            <div class="space-y-3 pt-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Monto a Cobrar (Bs.)</label>
+                                    <input type="number" id="qr-input-amount" value="215" class="w-full p-2.5 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-emprende-orange">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Concepto de Pago</label>
+                                    <input type="text" id="qr-input-concept" value="Pedido #8942 - Artesanias La Paz" class="w-full p-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emprende-orange">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Seleccionar Banco Emisor</label>
+                                    <select id="qr-bank-select" class="w-full p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800">
+                                        <option>Banco Unión S.A.</option>
+                                        <option>Banco Nacional de Bolivia (BNB)</option>
+                                        <option>Banco Mercantil Santa Cruz</option>
+                                        <option>Banco BISA</option>
+                                        <option>Banco Sol</option>
+                                    </select>
+                                </div>
+
+                                <button onclick="generateCustomQR()" class="w-full bg-emprende-purple hover:bg-purple-900 text-white font-bold py-2.5 rounded-xl text-xs transition shadow">
+                                    Generar Código QR Dinámico
+                                </button>
+                            </div>
+
+                            <!-- Display del QR -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-3">
+                                <div id="qrcode-container" class="inline-block p-4 bg-white rounded-2xl shadow-md border border-slate-200"></div>
+                                <p id="qr-display-info" class="text-xs font-bold text-slate-900">Monto: Bs. 215.00</p>
+                                <button onclick="simulateQRPaymentSuccess()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                                    Simular Pago Confirmado
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cartel Imprimible QR Tienda -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-bold text-slate-900 text-base">Cartel QR Exhibición (OP-04)</h3>
+                                <button onclick="window.print()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl border border-slate-300">
+                                    <i class="fas fa-print mr-1"></i> Imprimir
+                                </button>
+                            </div>
+
+                            <div class="border-2 border-dashed border-emprende-orange bg-gradient-to-b from-purple-50 via-white to-orange-50 rounded-2xl p-6 text-center space-y-4">
+                                <div class="w-12 h-12 bg-emprende-purple text-white font-black text-xl rounded-xl mx-auto flex items-center justify-center shadow">
+                                    E
+                                </div>
+                                <h4 class="font-brand font-black text-slate-900 text-lg">Artesanías & Moda La Paz</h4>
+                                <p class="text-xs text-slate-600">¡Escanea con tu aplicación bancaria de Bolivia y realiza tu pedido directo en WhatsApp!</p>
+
+                                <div id="qrcode-poster" class="inline-block p-3 bg-white rounded-xl shadow-md border border-slate-200"></div>
+
+                                <div class="flex justify-center items-center gap-3 text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                                    <span><i class="fas fa-check text-emerald-600"></i> QR Simple</span>
+                                    <span>•</span>
+                                    <span><i class="fab fa-whatsapp text-emerald-600"></i> Pedido Directo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: SIMULADOR TIENDA MÓVIL (VISTA CLIENTE / PWA) -->
+                <section id="tab-cliente-view" class="tab-content hidden space-y-6">
+                    <div class="flex justify-center">
+                        <!-- Maqueta de Teléfono Celular -->
+                        <div class="w-full max-w-sm bg-slate-900 rounded-[3rem] p-4 shadow-2xl border-4 border-slate-800 relative">
+                            <!-- Notch -->
+                            <div class="w-32 h-4 bg-slate-800 rounded-b-xl mx-auto mb-3"></div>
+
+                            <!-- Pantalla del Celular -->
+                            <div class="bg-slate-50 rounded-[2rem] overflow-hidden flex flex-col h-[580px] text-slate-800 border border-slate-200 relative">
+                                <!-- Mobile Header -->
+                                <div class="bg-emprende-purple text-white p-4 space-y-2 border-b border-purple-900">
+                                    <div class="flex items-center space-x-3">
+                                        <div id="mobile-shop-logo" class="w-9 h-9 rounded-xl bg-emprende-orange text-white font-black flex items-center justify-center text-sm shadow">
+                                            AP
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 id="mobile-shop-title" class="font-bold text-sm truncate">Artesanías & Moda La Paz</h4>
+                                            <p id="mobile-shop-sub" class="text-[10px] text-purple-200 truncate">artesanias-lp.emprendeya.bo</p>
+                                        </div>
+                                    </div>
+                                    <p id="mobile-welcome-msg" class="text-[11px] text-purple-100 bg-purple-950/60 p-2 rounded-lg leading-tight">
+                                        ¡Bienvenido! Selecciona tus productos y confirma tu pedido directo a nuestro WhatsApp.
+                                    </p>
+                                </div>
+
+                                <!-- Mobile Catalog Scroll Area -->
+                                <div class="flex-1 p-3 overflow-y-auto space-y-2.5" id="mobile-catalog-container">
+                                    <!-- Carga dinámica -->
+                                </div>
+
+                                <!-- Mobile Footer Checkout -->
+                                <div class="bg-white p-3 border-t border-slate-200 shadow-lg space-y-2">
+                                    <div class="flex justify-between items-center text-xs px-1">
+                                        <span class="text-slate-500 font-semibold">Total del Pedido:</span>
+                                        <span id="mobile-cart-total" class="font-black text-sm text-emprende-orange">Bs. 0.00</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                                        <button onclick="submitMobileOrder('wa')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl flex items-center justify-center gap-1 shadow">
+                                            <i class="fab fa-whatsapp"></i> Ruta 1: WhatsApp
+                                        </button>
+                                        <button onclick="submitMobileOrder('qr')" class="bg-emprende-purple hover:bg-purple-900 text-white font-bold py-2 rounded-xl flex items-center justify-center gap-1 shadow">
+                                            <i class="fas fa-qrcode"></i> Ruta 2: QR Simple
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: CREAR OTRA TIENDA ONLINE -->
+    <div id="create-store-modal" class="fixed inset-0 bg-slate-900/60 modal-blur z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                    <i class="fas fa-store text-emprende-orange"></i>
+                    <span>Crear Nueva Tienda Virtual</span>
+                </h3>
+                <button onclick="closeCreateStoreModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleCreateStore(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nombre Comercial de la Tienda</label>
+                    <input type="text" id="new-store-name" required placeholder="Ej. Calzados El Alto, Don Choco Pastelería, TecnoStore" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Subdominio Web Deseado</label>
+                    <div class="flex items-center">
+                        <input type="text" id="new-store-subdomain" required placeholder="calzados-elalto" class="w-full p-2.5 border border-r-0 border-slate-200 rounded-l-xl focus:ring-2 focus:ring-emprende-orange font-bold text-slate-900">
+                        <span class="bg-slate-100 border border-slate-200 p-2.5 rounded-r-xl text-slate-500 font-semibold">.emprendeya.bo</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Número de WhatsApp (Bolivia)</label>
+                    <input type="text" id="new-store-phone" required placeholder="59170000000" value="59171234567" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange font-mono">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Rubro / Categoría Principal del Negocio</label>
+                    <select id="new-store-category" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange font-semibold">
+                        <option value="Ropa">Moda, Calzados & Textiles</option>
+                        <option value="Alimentos">Gastronomía, Panadería & Dulces</option>
+                        <option value="Tecnología">Electrónica & Celulares</option>
+                        <option value="Artesanía">Artesanías & Souvenirs</option>
+                        <option value="Salud">Salud, Cosmética & Belleza</option>
+                        <option value="Hogar">Hogar, Construcción & Ferretería</option>
+                        <option value="Mascotas">Mascotas & Veterinaria</option>
+                        <option value="General">Comercio General & Abarrotes</option>
+                    </select>
+                </div>
+
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeCreateStoreModal()" class="flex-1 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-emprende-orange hover:bg-orange-600 text-white font-bold py-2.5 rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <i class="fas fa-rocket"></i>
+                        <span>Crear Tienda</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: AGREGAR / EDITAR PRODUCTO -->
+    <div id="product-modal" class="fixed inset-0 bg-slate-900/60 modal-blur z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-base" id="modal-title">Agregar Nuevo Producto</h3>
+                <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="product-form" onsubmit="saveProduct(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="prod-id">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nombre del Producto</label>
+                    <input type="text" id="prod-name" required placeholder="Ej. Bolso Tejido Artesanal" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Precio (Bs.)</label>
+                        <input type="number" id="prod-price" required placeholder="120" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Stock Inicial</label>
+                        <input type="number" id="prod-stock" required placeholder="10" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Categoría</label>
+                    <select id="prod-category" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange font-semibold">
+                        <option value="Ropa">Textiles & Ropa</option>
+                        <option value="Alimentos">Alimentos & Bebidas</option>
+                        <option value="Artesania">Artesanías</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">URL Imagen Muestra</label>
+                    <input type="url" id="prod-image" placeholder="https://images.unsplash.com/..." class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange">
+                </div>
+
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeProductModal()" class="flex-1 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-emprende-orange hover:bg-orange-600 text-white font-bold py-2.5 rounded-xl shadow">Guardar Producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: MOSTRAR QR INDIVIDUAL DE PRODUCTO (OP-04) -->
+    <div id="product-qr-modal" class="fixed inset-0 bg-slate-900/60 modal-blur z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h4 id="qr-product-title" class="font-bold text-slate-900 text-sm">QR de Producto</h4>
+                <button onclick="closeProductQRModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div id="single-product-qrcode" class="inline-block p-3 bg-white border border-slate-200 rounded-2xl shadow-md"></div>
+            
+            <p id="qr-product-desc" class="text-xs text-slate-500">Escanea este código para acceder directamente a la ficha del producto y realizar el pedido.</p>
+
+            <button onclick="window.print()" class="w-full bg-emprende-purple text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2">
+                <i class="fas fa-print"></i> Imprimir Sticker QR
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 text-xs">
+        <i class="fas fa-check-circle text-emerald-400 text-base"></i>
+        <span id="toast-message">Operación realizada con éxito</span>
+    </div>
+
+    <!-- JAVASCRIPT LÓGICA COMPLETA -->
+    <script>
+        // REGISTRO Y GESTIÓN MULTI-TIENDA (MULTIRRUBRO)
+        let registeredStores = [
+            { id: 'artesanias-lp', name: "Moda & Tendencias La Paz", subdomain: "moda-lapaz", phone: "59174865180", color: "#FF6B00", category: "Ropa", bank: "Yape / QR Simple Bolivia", account: "74865180", holder: "Propietario EmprendeYa" },
+            { id: 'panaderia-bolivia', name: "Pastelería & Dulces Cochabamba", subdomain: "dulces-cbba", phone: "59174865180", color: "#2D1458", category: "Alimentos", bank: "Yape Bolivia", account: "74865180", holder: "Propietario EmprendeYa" },
+            { id: 'tecnostore-bo', name: "TecnoStore Santa Cruz", subdomain: "tecnostore-scz", phone: "59174865180", color: "#007A33", category: "Tecnología", bank: "Yape Bolivia", account: "74865180", holder: "TecnoStore Bolivia S.R.L." }
+        ];
+
+        let activeStoreId = 'artesanias-lp';
+
+        // CONFIGURACIÓN DE TIENDA VIRTUAL (OP-01)
+        let shopConfig = { ...registeredStores[0] };
+
+        // ESTADO GLOBAL DE PRODUCTOS MULTIRRUBRO
+        let storeProducts = {
+            'artesanias-lp': [
+                { id: 1, name: "Chompa de Alpaca Fina", price: 180, stock: 4, category: "Ropa", image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&auto=format&fit=crop&q=80" },
+                { id: 2, name: "Zapatillas Urbanas Cuero", price: 250, stock: 12, category: "Ropa", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&auto=format&fit=crop&q=80" },
+                { id: 3, name: "Bolso Tejido Artesanal", price: 120, stock: 2, category: "Ropa", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=300&auto=format&fit=crop&q=80" },
+                { id: 4, name: "Chaqueta Térmica Andina", price: 290, stock: 15, category: "Ropa", image: "https://images.unsplash.com/photo-1544441893-675973e31985?w=300&auto=format&fit=crop&q=80" }
+            ],
+            'panaderia-bolivia': [
+                { id: 101, name: "Pan de Laja Tradicional (Doce)", price: 15, stock: 30, category: "Alimentos", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=80" },
+                { id: 102, name: "Torta Artesanal de Chocolate", price: 90, stock: 5, category: "Alimentos", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&auto=format&fit=crop&q=80" }
+            ],
+            'tecnostore-bo': [
+                { id: 201, name: "Audífonos Bluetooth Inalámbricos", price: 150, stock: 20, category: "Tecnología", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&auto=format&fit=crop&q=80" },
+                { id: 202, name: "Reloj Inteligente Smartwatch", price: 280, stock: 8, category: "Tecnología", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&auto=format&fit=crop&q=80" }
+            ]
+        };
+
+        let products = storeProducts[activeStoreId];
+
+        let mobileCart = {};
+        let currentWaMessage = "";
+        let salesChartInstance = null;
+
+        // AL CARGAR LA PÁGINA
+        window.onload = function() {
+            renderStoreSelector();
+            renderStoresDirectory();
+            renderProducts();
+            renderInventory();
+            renderMobileCatalog();
+            updateDashboardMetrics();
+            initSalesChart();
+            generateCustomQR();
+            generatePosterQR();
+        };
+
+        // GESTIÓN DE CREACIÓN DE OTRAS TIENDAS ONLINE
+        function openCreateStoreModal() {
+            document.getElementById('create-store-modal').classList.remove('hidden');
+        }
+
+        function closeCreateStoreModal() {
+            document.getElementById('create-store-modal').classList.add('hidden');
+        }
+
+        function handleCreateStore(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-store-name').value;
+            const subdomain = document.getElementById('new-store-subdomain').value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+            const phone = document.getElementById('new-store-phone').value;
+            const category = document.getElementById('new-store-category').value;
+
+            if (registeredStores.some(s => s.subdomain === subdomain)) {
+                showToast('Ese subdominio ya existe. Elige otro.');
+                return;
+            }
+
+            const newStore = {
+                id: subdomain,
+                name: name,
+                subdomain: subdomain,
+                phone: phone,
+                color: "#FF6B00",
+                category: category
+            };
+
+            registeredStores.push(newStore);
+            storeProducts[subdomain] = [
+                { id: Date.now(), name: "Producto de Muestra 1", price: 50, stock: 10, category: category, image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&auto=format&fit=crop&q=80" }
+            ];
+
+            closeCreateStoreModal();
+            renderStoreSelector();
+            renderStoresDirectory();
+            switchActiveStore(subdomain);
+            showToast(`¡Tienda ${name} creada exitosamente!`);
+        }
+
+        function renderStoreSelector() {
+            const selector = document.getElementById('active-store-selector');
+            selector.innerHTML = '';
+            registeredStores.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.id;
+                opt.innerText = s.name;
+                if (s.id === activeStoreId) opt.selected = true;
+                selector.appendChild(opt);
+            });
+        }
+
+        function renderStoresDirectory() {
+            const grid = document.getElementById('stores-directory-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            registeredStores.forEach(s => {
+                const count = (storeProducts[s.id] || []).length;
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">${s.category}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">${s.subdomain}.emprendeya.bo</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm leading-tight">${s.name}</h4>
+                        <p class="text-xs text-slate-500">${count} Productos en catálogo</p>
+                    </div>
+                    <div class="flex gap-2 pt-2 border-t border-slate-200">
+                        <button onclick="switchActiveStore('${s.id}')" class="flex-1 bg-emprende-orange hover:bg-orange-600 text-white font-bold py-1.5 rounded-lg text-xs">Administrar</button>
+                        <button onclick="previewStoreMobile('${s.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-3 py-1.5 rounded-lg text-xs"><i class="fas fa-eye"></i></button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function switchActiveStore(storeId) {
+            const store = registeredStores.find(s => s.id === storeId);
+            if (!store) return;
+
+            activeStoreId = storeId;
+            shopConfig = { ...store };
+            products = storeProducts[storeId] || [];
+
+            // Actualizar campos de configurador
+            const cfgName = document.getElementById('cfg-shop-name');
+            if (cfgName) cfgName.value = shopConfig.name;
+            const cfgSub = document.getElementById('cfg-shop-subdomain');
+            if (cfgSub) cfgSub.value = shopConfig.subdomain;
+            const cfgPhone = document.getElementById('cfg-shop-phone');
+            if (cfgPhone) cfgPhone.value = shopConfig.phone;
+            const cfgBank = document.getElementById('cfg-shop-bank');
+            if (cfgBank) cfgBank.value = shopConfig.bank || "Yape / QR Simple Bolivia";
+            const cfgAccount = document.getElementById('cfg-shop-account');
+            if (cfgAccount) cfgAccount.value = shopConfig.account || "74865180";
+            const cfgHolder = document.getElementById('cfg-shop-holder');
+            if (cfgHolder) cfgHolder.value = shopConfig.holder || "Propietario EmprendeYa";
+
+            // Actualizar interfaz general
+            const avatar = shopConfig.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+            if (document.getElementById('sidebar-shop-avatar')) document.getElementById('sidebar-shop-avatar').innerText = avatar;
+            if (document.getElementById('sidebar-shop-name')) document.getElementById('sidebar-shop-name').innerText = shopConfig.name;
+            if (document.getElementById('sidebar-shop-subdomain')) document.getElementById('sidebar-shop-subdomain').innerText = `${shopConfig.subdomain}.emprendeya.bo`;
+            if (document.getElementById('mobile-shop-logo')) document.getElementById('mobile-shop-logo').innerText = avatar;
+            if (document.getElementById('mobile-shop-title')) document.getElementById('mobile-shop-title').innerText = shopConfig.name;
+            if (document.getElementById('mobile-shop-sub')) document.getElementById('mobile-shop-sub').innerText = `${shopConfig.subdomain}.emprendeya.bo`;
+
+            mobileCart = {};
+            renderStoreSelector();
+            renderProducts();
+            renderInventory();
+            renderMobileCatalog();
+            updateDashboardMetrics();
+            generatePosterQR();
+
+            showToast(`Cambiado a la tienda: ${shopConfig.name}`);
+        }
+
+        // SAVE SHOP CONFIG
+        function saveShopSettings(e) {
+            e.preventDefault();
+            shopConfig.name = document.getElementById('cfg-shop-name').value;
+            shopConfig.subdomain = document.getElementById('cfg-shop-subdomain').value;
+            shopConfig.phone = document.getElementById('cfg-shop-phone').value;
+            shopConfig.color = document.getElementById('cfg-shop-color').value;
+            shopConfig.bank = document.getElementById('cfg-shop-bank').value;
+            shopConfig.account = document.getElementById('cfg-shop-account').value;
+            shopConfig.holder = document.getElementById('cfg-shop-holder').value;
+
+            // Actualizar objeto en arreglo registrado
+            const store = registeredStores.find(s => s.id === activeStoreId);
+            if (store) {
+                store.name = shopConfig.name;
+                store.subdomain = shopConfig.subdomain;
+                store.phone = shopConfig.phone;
+                store.color = shopConfig.color;
+                store.bank = shopConfig.bank;
+                store.account = shopConfig.account;
+                store.holder = shopConfig.holder;
+            }
+
+            renderStoreSelector();
+            renderStoresDirectory();
+
+            // Actualizar interfaz
+            document.getElementById('sidebar-shop-name').innerText = shopConfig.name;
+            document.getElementById('sidebar-shop-subdomain').innerText = `${shopConfig.subdomain}.emprendeya.bo`;
+            document.getElementById('mobile-shop-title').innerText = shopConfig.name;
+            document.getElementById('mobile-shop-sub').innerText = `${shopConfig.subdomain}.emprendeya.bo`;
+
+            showToast('Configuración de WhatsApp y Cuenta Bancaria guardada exitosamente');
+        }
+
+        function previewStoreMobile(storeId) {
+            switchActiveStore(storeId);
+            switchTab('cliente-view');
+        }
+
+        // SAVE SHOP CONFIG
+        function saveShopSettings(e) {
+            e.preventDefault();
+            shopConfig.name = document.getElementById('cfg-shop-name').value;
+            shopConfig.subdomain = document.getElementById('cfg-shop-subdomain').value;
+            shopConfig.phone = document.getElementById('cfg-shop-phone').value;
+            shopConfig.color = document.getElementById('cfg-shop-color').value;
+
+            // Actualizar objeto en arreglo registrado
+            const store = registeredStores.find(s => s.id === activeStoreId);
+            if (store) {
+                store.name = shopConfig.name;
+                store.subdomain = shopConfig.subdomain;
+                store.phone = shopConfig.phone;
+                store.color = shopConfig.color;
+            }
+
+            renderStoreSelector();
+            renderStoresDirectory();
+
+            // Actualizar interfaz
+            document.getElementById('sidebar-shop-name').innerText = shopConfig.name;
+            document.getElementById('sidebar-shop-subdomain').innerText = `${shopConfig.subdomain}.emprendeya.bo`;
+            document.getElementById('mobile-shop-title').innerText = shopConfig.name;
+            document.getElementById('mobile-shop-sub').innerText = `${shopConfig.subdomain}.emprendeya.bo`;
+
+            showToast('Configuración de tienda guardada exitosamente');
+        }
+
+        // NAVEGACIÓN DE SECCIONES
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-emprende-orange', 'text-white', 'font-bold', 'shadow-md');
+                el.classList.add('text-slate-300');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-emprende-orange', 'text-white', 'font-bold', 'shadow-md');
+                activeNav.classList.remove('text-slate-300');
+            }
+
+            const titles = {
+                'inicio-landing': ['EmprendeYa SaaS - Sistema de Ventas Bolivia', 'Presentación general del proyecto y creación de tiendas online.'],
+                'dashboard': ['Dashboard de Ventas & Operaciones', 'Métricas clave en tiempo real adaptadas al comercio en Bolivia.'],
+                'config-tienda': ['Configuración de Tu Tienda Virtual (OP-01 y OP-02)', 'Personaliza la identidad visual de tu vitrina comercial en minutos.'],
+                'catalogo': ['Catálogo de Productos & Generación de QR (OP-03 y OP-04)', 'Publica productos y genera códigos QR individuales para imprimir.'],
+                'inventario': ['Control de Inventario en Tiempo Real (OP-05 y OP-09)', 'Monitoreo de stock con descuento automático en cada venta.'],
+                'pedidos': ['Gestión de Pedidos & Integración WhatsApp (OP-08)', 'Recepciona y automatiza la confirmación de compras de clientes.'],
+                'qr-pagos': ['Pasarela de Pago QR Simple Bolivia (OP-09)', 'Cobros digitales interbancarios en Bolivianos sin comisiones.'],
+                'cliente-view': ['Simulador de Tienda Móvil (Vista Cliente)', 'Prueba la experiencia exacta de compra de un usuario final.']
+            };
+
+            if (titles[tabId]) {
+                document.getElementById('section-title').innerText = titles[tabId][0];
+                document.getElementById('section-desc').innerText = titles[tabId][1];
+            }
+        }
+
+        // RENDERIZAR PRODUCTOS EN ADMIN
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const search = document.getElementById('catalog-search')?.value.toLowerCase() || '';
+            const category = document.getElementById('catalog-category')?.value || 'todos';
+
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchName = p.name.toLowerCase().includes(search);
+                const matchCat = category === 'todos' || p.category === category;
+                return matchName && matchCat;
+            });
+
+            filtered.forEach(p => {
+                const isLow = p.stock <= 5;
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between transition hover:shadow-md";
+                card.innerHTML = `
+                    <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Número de WhatsApp (Bolivia)</label>
+                    <input type="text" id="new-store-phone" required placeholder="59174865180" value="59174865180" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emprende-orange font-mono">
+                </div>
+                        <div class="p-4 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm leading-tight">${p.name}</h4>
+                            <p class="text-xs text-slate-500">Precio: <strong class="text-slate-900 text-sm font-extrabold">Bs. ${p.price}</strong></p>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-slate-100 flex items-center justify-between text-xs bg-slate-50">
+                        <span class="${isLow ? 'text-amber-600 font-bold' : 'text-slate-600'}">Stock: ${p.stock} unid.</span>
+                        <div class="flex items-center gap-1">
+                            <button onclick="showProductQR(${p.id})" title="Ver Código QR Producto" class="p-1.5 text-emprende-orange hover:bg-orange-100 rounded-lg"><i class="fas fa-qrcode"></i></button>
+                            <button onclick="editProduct(${p.id})" title="Editar Producto" class="p-1.5 text-slate-500 hover:text-emprende-purple rounded-lg hover:bg-slate-200"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteProduct(${p.id})" title="Eliminar Producto" class="p-1.5 text-slate-500 hover:text-red-600 rounded-lg hover:bg-slate-200"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.getElementById('badge-products-count').innerText = products.length;
+        }
+
+        // MOSTRAR QR DE PRODUCTO INDIVIDUAL (OP-04)
+        function showProductQR(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('qr-product-title').innerText = p.name;
+            document.getElementById('qr-product-desc').innerText = `QR Directo a Producto: Bs. ${p.price} (${p.category})`;
+
+            const container = document.getElementById('single-product-qrcode');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: `https://${shopConfig.subdomain}.emprendeya.bo/producto/${p.id}`,
+                width: 150,
+                height: 150,
+                correctLevel: QRCode.CorrectLevel.L
+            });
+
+            document.getElementById('product-qr-modal').classList.remove('hidden');
+        }
+
+        function closeProductQRModal() {
+            document.getElementById('product-qr-modal').classList.add('hidden');
+        }
+
+        // RENDERIZAR TABLA DE INVENTARIO
+        function renderInventory() {
+            const tbody = document.getElementById('inventory-table-body');
+            tbody.innerHTML = '';
+
+            products.forEach(p => {
+                const isLow = p.stock <= 5;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-slate-800 flex items-center gap-3">
+                        <img src="${p.image}" class="w-8 h-8 rounded-lg object-cover">
+                        <span>${p.name}</span>
+                    </td>
+                    <td class="py-3 px-4 text-slate-500">${p.category}</td>
+                    <td class="py-3 px-4 font-bold text-slate-900">Bs. ${p.price}</td>
+                    <td class="py-3 px-4"><span class="font-black text-sm ${isLow ? 'text-amber-600' : 'text-slate-800'}">${p.stock}</span></td>
+                    <td class="py-3 px-4">
+                        ${isLow 
+                            ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[10px]">¡Bajo Stock!</span>' 
+                            : '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Normal</span>'}
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="inline-flex items-center space-x-1">
+                            <button onclick="adjustStock(${p.id}, -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-lg">-</button>
+                            <button onclick="adjustStock(${p.id}, 1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-lg">+</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // AJUSTE DINÁMICO DE STOCK
+        function adjustStock(id, delta) {
+            const p = products.find(item => item.id === id);
+            if (p) {
+                p.stock = Math.max(0, p.stock + delta);
+                renderProducts();
+                renderInventory();
+                renderMobileCatalog();
+                updateDashboardMetrics();
+                
+                // Agregar al log de inventario
+                const log = document.getElementById('inventory-log');
+                const entry = document.createElement('div');
+                entry.className = "p-2 bg-slate-50 rounded-lg flex justify-between";
+                entry.innerHTML = `<span><strong>Ajuste:</strong> ${p.name} ahora tiene ${p.stock} unidades.</span><span class="text-slate-400">Ahora</span>`;
+                log.prepend(entry);
+
+                showToast(`Stock de ${p.name} actualizado`);
+            }
+        }
+
+        // ACTUALIZAR MÉTRICAS GENERALES
+        function updateDashboardMetrics() {
+            const totalVal = products.reduce((acc, p) => acc + (p.price * p.stock), 0);
+            const totalUnits = products.reduce((acc, p) => acc + p.stock, 0);
+            const lowStockCount = products.filter(p => p.stock <= 5).length;
+
+            document.getElementById('dash-inventory-val').innerText = `Bs. ${totalVal.toLocaleString()}`;
+            document.getElementById('dash-total-units').innerText = `${totalUnits} Unidades en Total`;
+            document.getElementById('badge-alert-stock').innerText = `${lowStockCount} Alertas`;
+        }
+
+        // AGREGAR / EDITAR PRODUCTO MODAL
+        function openProductModal() {
+            document.getElementById('product-form').reset();
+            document.getElementById('prod-id').value = '';
+            document.getElementById('modal-title').innerText = 'Agregar Nuevo Producto';
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('prod-id').value;
+            const name = document.getElementById('prod-name').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            const stock = parseInt(document.getElementById('prod-stock').value);
+            const category = document.getElementById('prod-category').value;
+            let image = document.getElementById('prod-image').value || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&auto=format&fit=crop&q=80';
+
+            if (id) {
+                const index = products.findIndex(p => p.id == id);
+                if (index !== -1) products[index] = { ...products[index], name, price, stock, category, image };
+            } else {
+                products.push({ id: Date.now(), name, price, stock, category, image });
+            }
+
+            closeProductModal();
+            renderProducts();
+            renderInventory();
+            renderMobileCatalog();
+            updateDashboardMetrics();
+            showToast('Producto guardado correctamente');
+        }
+
+        function editProduct(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('prod-id').value = p.id;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-stock').value = p.stock;
+            document.getElementById('prod-category').value = p.category;
+            document.getElementById('prod-image').value = p.image;
+            document.getElementById('modal-title').innerText = 'Editar Producto';
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function deleteProduct(id) {
+            products = products.filter(p => p.id !== id);
+            renderProducts();
+            renderInventory();
+            renderMobileCatalog();
+            updateDashboardMetrics();
+            showToast('Producto eliminado');
+        }
+
+        // GENERADOR DE MENSAJE WHATSAPP
+        function generateWhatsAppMessage(clientName, orderNum, items, total) {
+            currentWaMessage = `¡Hola ${clientName}! 👋🏼%0A%0AGracias por tu compra en *${shopConfig.name}*.%0A%0A📦 *Detalle del Pedido #${orderNum}:*%0A${items}%0A%0A💰 *Total a Cancelar:* Bs. ${total}%0A%0A📲 *Método de Pago:* QR Simple Interbancario%0APuedes escanear nuestro código QR para completar el pedido.%0A%0A¿Nos confirmas tu dirección exacta de entrega?`;
+            document.getElementById('wa-preview-text').value = decodeURIComponent(currentWaMessage);
+            showToast(`Respuesta preparada para ${clientName}`);
+        }
+
+        function openWhatsAppSimulatedLink() {
+            if (!currentWaMessage) {
+                showToast('Primero selecciona un pedido para generar el mensaje');
+                return;
+            }
+            window.open(`https://wa.me/${shopConfig.phone}?text=${currentWaMessage}`, '_blank');
+        }
+
+        // PASARELA DE PAGO QR SIMPLE
+        function generateCustomQR() {
+            const amount = document.getElementById('qr-input-amount').value || '215';
+            const concept = document.getElementById('qr-input-concept').value || 'Pedido';
+            const bank = shopConfig.bank || document.getElementById('qr-bank-select').value;
+            const account = shopConfig.account || "1000004589231";
+            const holder = shopConfig.holder || "Brian Chambi";
+
+            const payload = `QR|${bank.split(' ')[0]}|ACC:${account}|BS:${amount}|${concept}`;
+
+            const container = document.getElementById('qrcode-container');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: payload,
+                width: 160,
+                height: 160,
+                correctLevel: QRCode.CorrectLevel.L
+            });
+
+            document.getElementById('qr-display-info').innerText = `Monto: Bs. ${parseFloat(amount).toFixed(2)} (${bank} - N° ${account})`;
+        }
+
+        function generatePosterQR() {
+            const container = document.getElementById('qrcode-poster');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: `https://${shopConfig.subdomain}.emprendeya.bo`,
+                width: 140,
+                height: 140,
+                correctLevel: QRCode.CorrectLevel.L
+            });
+        }
+
+        function simulateQRPaymentSuccess() {
+            showToast('¡Pago QR Recibido! Transferencia acreditada en tiempo real.');
+        }
+
+        // SIMULADOR TIENDA MÓVIL PWA (CLIENTE FINAL)
+        function renderMobileCatalog() {
+            const container = document.getElementById('mobile-catalog-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            products.forEach(p => {
+                const qty = mobileCart[p.id] || 0;
+                const div = document.createElement('div');
+                div.className = "bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 shadow-sm";
+                div.innerHTML = `
+                    <img src="${p.image}" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="flex-1 min-w-0 text-xs">
+                        <h5 class="font-bold text-slate-800 truncate">${p.name}</h5>
+                        <p class="text-emprende-orange font-extrabold mt-0.5">Bs. ${p.price}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-xs">
+                        <button onclick="changeMobileQty(${p.id}, -1)" class="w-6 h-6 bg-slate-100 text-slate-800 rounded font-bold">-</button>
+                        <span class="font-bold w-4 text-center">${qty}</span>
+                        <button onclick="changeMobileQty(${p.id}, 1)" class="w-6 h-6 bg-emprende-purple text-white rounded font-bold">+</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            updateMobileCartTotal();
+        }
+
+        function changeMobileQty(id, delta) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            const current = mobileCart[id] || 0;
+            const next = Math.max(0, current + delta);
+
+            if (next > p.stock) {
+                showToast(`Solo quedan ${p.stock} unidades en existencias.`);
+                return;
+            }
+
+            if (next === 0) delete mobileCart[id];
+            else mobileCart[id] = next;
+
+            renderMobileCatalog();
+        }
+
+        function updateMobileCartTotal() {
+            let total = 0;
+            Object.keys(mobileCart).forEach(id => {
+                const p = products.find(item => item.id == id);
+                if (p) total += p.price * mobileCart[id];
+            });
+            const totalEl = document.getElementById('mobile-cart-total');
+            if (totalEl) totalEl.innerText = `Bs. ${total.toFixed(2)}`;
+        }
+
+        function changeMobileQty(id, delta) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            const current = mobileCart[id] || 0;
+            const next = Math.max(0, current + delta);
+
+            if (next > p.stock) {
+                showToast(`Solo quedan ${p.stock} unidades en existencias.`);
+                return;
+            }
+
+            if (next === 0) delete mobileCart[id];
+            else mobileCart[id] = next;
+
+            renderMobileCatalog();
+        }
+
+        function updateMobileCartTotal() {
+            let total = 0;
+            Object.keys(mobileCart).forEach(id => {
+                const p = products.find(item => item.id == id);
+                if (p) total += p.price * mobileCart[id];
+            });
+            document.getElementById('mobile-cart-total').innerText = `Bs. ${total.toFixed(2)}`;
+        }
+
+        // SUBMIT PEDIDO (RUTA 1 O RUTA 2)
+        function submitMobileOrder(routeType) {
+            const keys = Object.keys(mobileCart);
+            if (keys.length === 0) {
+                showToast('Agrega productos al carrito primero.');
+                return;
+            }
+
+            let text = `¡Hola *${shopConfig.name}*! Quisiera realizar este pedido:%0A%0A`;
+            let total = 0;
+
+            keys.forEach(id => {
+                const p = products.find(item => item.id == id);
+                if (p) {
+                    const sub = p.price * mobileCart[id];
+                    total += sub;
+                    text += `• ${mobileCart[id]}x ${p.name} (Bs. ${sub})%0A`;
+                    // Descuento automático de stock (OP-09)
+                    p.stock = Math.max(0, p.stock - mobileCart[id]);
+                }
+            });
+
+            text += `%0A💰 *Total:* Bs. ${total}%0A`;
+
+            if (routeType === 'qr') {
+                text += `💳 *Método Elegido:* Pago por Código QR Simple registrado en la app.`;
+                showToast('Descontando inventario y generando comprobante QR...');
+            } else {
+                text += `📲 *Método Elegido:* Pedido directo a WhatsApp.`;
+                showToast('Redirigiendo a WhatsApp y actualizando inventario...');
+            }
+
+            // Reset cart
+            mobileCart = {};
+            renderProducts();
+            renderInventory();
+            renderMobileCatalog();
+            updateDashboardMetrics();
+
+            setTimeout(() => {
+                window.open(`https://wa.me/${shopConfig.phone}?text=${text}`, '_blank');
+            }, 800);
+        }
+
+        // GRÁFICO SALES CHART
+        function initSalesChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            salesChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                    datasets: [
+                        {
+                            label: 'Cobros QR Simple (BS)',
+                            data: [420, 680, 550, 910, 740, 1100, 850],
+                            backgroundColor: '#2D1458',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Pedidos WhatsApp (BS)',
+                            data: [300, 450, 400, 620, 500, 800, 600],
+                            backgroundColor: '#FF6B00',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // TOAST NOTIFIER
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
